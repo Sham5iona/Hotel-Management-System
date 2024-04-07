@@ -16,8 +16,10 @@ namespace HMS.Areas.Identity.Model
             
         }
 
-        public Admin(bool is_admin)
+        public Admin(string username, string password, bool is_admin)
         {
+            this.UserName = username;
+            this.PasswordHash = password;
             this.IsAdmin = is_admin;
         }
     }
