@@ -1,0 +1,72 @@
+﻿@page
+@model IndexModel
+@inject SignInManager<HMS.Areas.Identity.Model.Admin> SignInManager
+@{
+    ViewData["Title"] = "Home page";
+    Layout = null;
+}
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+@{
+    if (SignInManager.IsSignedIn(this.User))
+    {
+        <div class="text-center">
+            <h1 class="display-4">Welcome to our Hotel Management System</h1>
+        </div>
+        <ul class="nav nav-tabs" style="display:flex; align-items:center;justify-content:center;">
+            <li class="dropdown">
+                <a style="font-size:20px;cursor:pointer;" class="dropdown-toggle" data-toggle="dropdown">Customers &#9660;</a>
+                <ul class="dropdown-menu">
+                    <li><a asp-page="/Customer/AddCustomer" style="font-size:20px;">Add a new customer</a></li>
+                    <li><a asp-page="/Customer/GetCustomers" style="font-size:20px;">See all customers</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a style="font-size:20px;cursor:pointer;" class="dropdown-toggle" data-toggle="dropdown">Rooms &#9660;</a>
+                <ul class="dropdown-menu">
+                    <li><a asp-page="/Room/AddRoom" style="font-size:20px;">Add a new room</a></li>
+                    <li><a asp-page="/Room/GetRooms" style="font-size:20px;">See all rooms</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a style="font-size:20px;cursor:pointer;" class="dropdown-toggle" data-toggle="dropdown">Reservations &#9660;</a>
+                <ul class="dropdown-menu">
+                    <li><a asp-page="/Reservation/AddReservation" style="font-size:20px;">Add a new reservation</a></li>
+                    <li><a asp-page="/Reservation/GetReservations" style="font-size:20px;">See all reservations</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a style="font-size:20px;cursor:pointer;" class="dropdown-toggle" data-toggle="dropdown">Admins &#9660;</a>
+                <ul class="dropdown-menu">
+                    <li><a asp-page="/Admin/GetAdmins" style="font-size:20px;">See all admins</a></li>
+                </ul>
+            </li>
+
+            <partial name="_LoginPartial" />
+
+
+
+        </ul>
+    }
+    else
+    {
+        <div style="text-align:center;">
+        <h1>First you need to login as an admin to use the Admin Panel</h1>
+        <h2>
+            If you don't have an account <a asp-area="Identity" asp-page="/Account/Register" style="font-size:20px;">Register here</a>
+        </h2>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" style="font-size:20px;">Login</a>
+
+        </div>
+        
+    }
+}
+
+
