@@ -18,14 +18,12 @@ namespace HMS.Mappings
 
             //Create Auto Mapper for Admin and AdminDTO and vise versa
 
-            CreateMap<AdminDTO, Admin>()
-                .ForMember(dest => dest.PasswordHash,
-                opt => opt.Ignore());
-
-
             CreateMap<Admin, AdminDTO>()
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
                 .ForMember(dest => dest.AlreadyExists,
                 opt => opt.Ignore());
+
+            CreateMap<AdminDTO, Admin>();
 
             //Reservation: CheckOutDate must be later than CheckInDate.
 
