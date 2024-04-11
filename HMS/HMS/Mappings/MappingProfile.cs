@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using HMS.Areas.Identity.Model;
 using HMS.DTOs;
 using HMS.Model;
-using HMS.Services;
+
+
 
 namespace HMS.Mappings
 {
@@ -17,9 +19,20 @@ namespace HMS.Mappings
             CreateMap<CustomerDTO, Customer>();
 
             //Create Auto Mapper for Admin and AdminDTO and vise versa
+            CreateMap<AdminDTO, Admin>()
+                .ForMember(dest => dest.PasswordHash,
+                opt => opt.Ignore());
+
+
+            CreateMap<Admin, AdminDTO>()
+                .ForMember(dest => dest.AlreadyExists,
+                opt => opt.Ignore());
+
+            //Reservation: CheckOutDate must be later than CheckInDate.
 
             //Reservation: CheckOutDate must be later than CheckInDate.
             
+
         }
     }
 }
