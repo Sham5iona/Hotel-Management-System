@@ -120,7 +120,7 @@ namespace HMS.Areas.Identity.Pages.Account
                     await _userManager.AddToRoleAsync(user, "Administrator");
                     _logger.LogInformation("User created a new account with password.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToPage("/Account/Login");
+                    return RedirectToPage("/Index");
                     
                 }
                 foreach (var error in result.Errors)
