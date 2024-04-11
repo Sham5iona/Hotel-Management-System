@@ -11,7 +11,7 @@ namespace HMS.Mappings
     {
         public MappingProfile()
         {
-            //Create AutoM Mapper for Customer and CustomerDTO and vise versa
+            //Create Auto Mapper for Customer and CustomerDTO and vise versa
             CreateMap<Customer, CustomerDTO>()
                 .ForMember(dest => dest.UserAlreadyExists,
                            opt => opt.Ignore());
@@ -19,12 +19,11 @@ namespace HMS.Mappings
             CreateMap<CustomerDTO, Customer>();
 
             //Create Auto Mapper for Admin and AdminDTO and vise versa
-            CreateMap<AdminDTO, Admin>()
-                .ForMember(dest => dest.PasswordHash,
-                opt => opt.Ignore());
 
+            CreateMap<AdminDTO, Admin>()
 
             CreateMap<Admin, AdminDTO>()
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
                 .ForMember(dest => dest.AlreadyExists,
                 opt => opt.Ignore());
 
