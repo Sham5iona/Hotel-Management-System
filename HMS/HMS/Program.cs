@@ -26,8 +26,15 @@ namespace HMS
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredUniqueChars = 0;
+
+
             })
+                .AddDefaultTokenProviders()
+
+            })
+
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+                
             builder.Services.AddRazorPages();
 
             builder.Services.AddDbContext<HotelDbContext>(options =>
@@ -38,6 +45,7 @@ namespace HMS
             //Add auto mapper here
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+            builder.Services.AddTransient<IAdminService, AdminService>();
 
             var app = builder.Build();
             
