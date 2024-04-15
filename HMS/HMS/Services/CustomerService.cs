@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using HMS.Data;
 using HMS.DTOs;
 using HMS.Model;
@@ -21,7 +21,6 @@ namespace HMS.Services
             this._logger = logger;
             this._hotelDbContext = hotelDbContext;
             this._mapper = mapper;
-
         }
 
         public async Task<bool> AddCustomerAsync(CustomerDTO customerDTO)
@@ -29,11 +28,11 @@ namespace HMS.Services
 
             try
             {
-                
+
                 if (!(await CheckIfAlreadyExistsAsync(customerDTO)))
                 {
                     Customer customer = new Customer();
-                   //Use the auto mapper to map from CustomerDTO to Customer
+                    //Use the auto mapper to map from CustomerDTO to Customer
                     _mapper.Map(customerDTO, customer);
                     await _hotelDbContext.Customers.AddAsync(customer);
                     await _hotelDbContext.SaveChangesAsync();
@@ -42,7 +41,8 @@ namespace HMS.Services
 
                 return false;
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return false;
@@ -56,10 +56,10 @@ namespace HMS.Services
             var customers = await GetCustomersAsync();
 
             bool email_already_exists = customers.Any(c =>
-                c.CustomerEmail == customerDTO?.CustomerEmail
+                c.CustomerEmail == customerDTO.CustomerEmail
                 && c.CustomerId != _customer_id);
 
-            if(email_already_exists) 
+            if (email_already_exists)
             {
                 customerDTO.UserAlreadyExists = "User with this email already " +
                     "exists! Try other one!";
@@ -69,7 +69,7 @@ namespace HMS.Services
 
             //user doesn't exist
             return false;
-            
+
         }
 
         public async Task<bool> DeleteCustomerAsync(Guid id)
@@ -83,7 +83,8 @@ namespace HMS.Services
                 await _hotelDbContext.SaveChangesAsync();
                 return true;
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return false;
@@ -105,12 +106,13 @@ namespace HMS.Services
 
             try
             {
-                _mapper.Map<Customer>(customerDTO);
                 Customer? wanted_customer = await _hotelDbContext.Customers
                                           .FirstOrDefaultAsync(
-                            c => c.CustomerId == _customer_id);
+                            c => c.CustomerEmail == customerDTO.CustomerEmail &&
+                            c.CustomerName == customerDTO.CustomerName &&
+                            c.CustomerPhone == customerDTO.CustomerPhone);
 
-                if(wanted_customer == null)
+                if (wanted_customer == null)
                 {
                     throw new Exception("There is no user with this data!");
 
@@ -118,7 +120,8 @@ namespace HMS.Services
 
                 return wanted_customer.CustomerId;
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return Guid.Empty;
@@ -130,7 +133,7 @@ namespace HMS.Services
             try
             {
                 var customers = await _hotelDbContext.Customers.ToListAsync();
-                               
+
                 return customers;
             }
             catch (Exception ex)
@@ -145,23 +148,37 @@ namespace HMS.Services
         {
             try
             {
-                
+
                 if (!(await CheckIfAlreadyExistsAsync(customerDTO)))
                 {
-                    var customer = await GetCustomerByIdAsync(_customer_id);
-                    _mapper.Map(customerDTO, customer);
-                    await _hotelDbContext.SaveChangesAsync();
-                    return true;
+                    var reservation = await _hotelDbContext.Reservations
+                                     .FirstOrDefaultAsync(res =>
+                                     res.CustomerId == _customer_id);
+
+
+                    if (reservation == null)
+                    {
+                        var customer = await GetCustomerByIdAsync(_customer_id);
+                        _mapper.Map(customerDTO, customer);
+                        await _hotelDbContext.SaveChangesAsync();
+                        return true;
+                    }
+
+                    customerDTO.UserIsAlreadyTakenForReservation = "Can't update" +
+                        " the user because there is already a reservation on him!";
+
+                    return false;
+
                 }
 
                 return false;
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return false;
             }
-
         }
     }
 }
