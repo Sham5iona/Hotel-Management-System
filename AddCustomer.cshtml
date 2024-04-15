@@ -1,0 +1,54 @@
+﻿@page
+@model HMS.Pages.Customer.AddCustomerModel
+@{
+    ViewData["Title"] = "Add a customer";
+    Layout = null;
+}
+
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Add a customer</h2>
+        <form method="post">
+
+            <div class="form-group">
+                <label asp-for="CustomerDTO.CustomerName">Customer's name</label>
+                <input type="text" class="form-control" placeholder="Enter name" asp-for="CustomerDTO.CustomerName">
+                <span asp-validation-for="CustomerDTO.CustomerName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CustomerDTO.CustomerEmail">Customer's email</label>
+                <input type="email" class="form-control" placeholder="Enter email" asp-for="CustomerDTO.CustomerEmail">
+                <span asp-validation-for="CustomerDTO.CustomerEmail" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CustomerDTO.CustomerPhone">Customer's phone number</label>
+                <input type="text" class="form-control" placeholder="Enter phone number" asp-for="CustomerDTO.CustomerPhone">
+                <span asp-validation-for="CustomerDTO.CustomerPhone" class="text-danger"></span>
+            </div>
+
+            @if (@Model.CustomerDTO != null && @Model.CustomerDTO.UserAlreadyExists != null)
+            {
+                <h3 class="text-danger">
+                    <strong>@Model.CustomerDTO.UserAlreadyExists</strong>
+                </h3>
+            }
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+    </div>
+
+</body>
+
+</html>
