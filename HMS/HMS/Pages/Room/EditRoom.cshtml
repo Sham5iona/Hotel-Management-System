@@ -1,0 +1,76 @@
+﻿@page
+@model HMS.Pages.Room.EditRoomModel
+
+@{
+    ViewData["Title"] = "Edit a room";
+    Layout = null;
+}
+
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="~/js/site.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Edit a room</h2>
+        <a class="btn-link" style="font-size:20px" asp-page="/Index">Return to control panel</a>
+
+        <form method="post">
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomNumber">Room's number</label>
+                <input value="@Model.RoomDTO.RoomNumber" type="text" class="form-control" placeholder="Enter room number" asp-for="RoomDTO.RoomNumber">
+                <span asp-validation-for="RoomDTO.RoomNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomType">Room's type</label>
+                <input value="@Model.RoomDTO.RoomType" type="text" class="form-control" placeholder="Enter room type" asp-for="RoomDTO.RoomType">
+                <span asp-validation-for="RoomDTO.RoomType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomCapacity">Room's capacity</label>
+                <input value="@Model.RoomDTO.RoomCapacity" type="number" class="form-control" placeholder="Enter room capacity" asp-for="RoomDTO.RoomCapacity">
+                <span asp-validation-for="RoomDTO.RoomCapacity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomIsActive">Is room active?</label>
+                <input id="checkbox" onclick="CheckValue()" type="checkbox" asp-for="RoomDTO.RoomIsActive" value="@Model.RoomDTO.RoomIsActive" style="cursor:pointer;">
+                <span asp-validation-for="RoomDTO.RoomIsActive" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomDailyCost">Room's daily cost</label>
+                <input value="@Model.RoomDTO.RoomDailyCost" placeholder="Enter daily cost" class="form-control" type="text" asp-for="RoomDTO.RoomDailyCost">
+                <span asp-validation-for="RoomDTO.RoomDailyCost" class="text-danger"></span>
+            </div>
+
+            @if (@Model.RoomDTO != null && @Model.RoomDTO.RoomAlreadyExists != null)
+            {
+                <h3 class="text-danger">
+                    <strong>@Model.RoomDTO.RoomAlreadyExists</strong>
+                </h3>
+            }
+
+            @if (@Model.RoomDTO != null && @Model.RoomDTO.ErrorMessageForIsRoomActive != null)
+            {
+                <h3 class="text-danger">
+                    <strong>@Model.RoomDTO.ErrorMessageForIsRoomActive</strong>
+                </h3>
+            }
+
+            <button asp-page-handler="EditRoom" type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+    </div>
+
+</body>
+
+</html>
