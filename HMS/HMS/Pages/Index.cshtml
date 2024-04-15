@@ -1,6 +1,7 @@
 ﻿@page
 @model IndexModel
 @inject SignInManager<HMS.Areas.Identity.Model.Admin> SignInManager
+@inject UserManager<HMS.Areas.Identity.Model.Admin> UserManager;
 @{
     ViewData["Title"] = "Home page";
     Layout = null;
@@ -12,7 +13,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 @{
-    if (SignInManager.IsSignedIn(this.User))
+    var user = await UserManager.GetUserAsync(this.User);
+    if (SignInManager.IsSignedIn(this.User) && user != null)
     {
         <div class="text-center">
             <h1 class="display-4">Welcome to our Hotel Management System</h1>
@@ -57,14 +59,9 @@
     }
     else
     {
-        <div style="text-align:center;">
-        <h1>First you need to login as an admin to use the Admin Panel</h1>
-        <h2>
-            If you don't have an account <a asp-area="Identity" asp-page="/Account/Register" style="font-size:20px;">Register here</a>
-        </h2>
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" style="font-size:20px;">Login</a>
-
-        </div>
+        <script>
+            window.location.href = "/Identity/Account/Register";
+        </script>
         
     }
 }

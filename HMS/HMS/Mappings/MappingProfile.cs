@@ -2,7 +2,6 @@
 using HMS.Areas.Identity.Model;
 using HMS.DTOs;
 using HMS.Model;
-using HMS.Services;
 
 namespace HMS.Mappings
 {
@@ -11,7 +10,7 @@ namespace HMS.Mappings
         public MappingProfile()
         {
 
-            //Create AutoM Mapper for Customer and CustomerDTO and vise versa
+            //Create Auto Mapper for Customer and CustomerDTO and vise versa
             CreateMap<Customer, CustomerDTO>()
                 .ForMember(dest => dest.UserAlreadyExists,
                            opt => opt.Ignore());
@@ -20,12 +19,13 @@ namespace HMS.Mappings
 
             //Create Auto Mapper for Admin and AdminDTO and vise versa
 
+            CreateMap<AdminDTO, Admin>()
+
+
             CreateMap<Admin, AdminDTO>()
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
                 .ForMember(dest => dest.AlreadyExists,
                 opt => opt.Ignore());
-
-            CreateMap<AdminDTO, Admin>();
 
             //Create Auto Mapper for Room and RoomDTO and vise versa
 
@@ -58,6 +58,7 @@ namespace HMS.Mappings
                 opt => opt.Ignore());
 
             CreateMap<ReservationDTO, Reservation>();
+
 
         }
     }
