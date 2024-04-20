@@ -1,4 +1,129 @@
 ﻿@page
 @model HMS.Pages.Reservation.AddReservationModel
 @{
+    ViewData["Title"] = "Add a reservation";
+    Layout = null;
 }
+
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Add a reservation</h2>
+        <a class="btn-link" style="font-size:20px" asp-page="/Index">Return to control panel</a>
+
+        <form method="post">
+
+            <div class="form-group">
+                <label asp-for="ReservationDTO.CheckInDate">Check in date</label>
+                <input type="date" class="form-control" asp-for="ReservationDTO.CheckInDate">
+                <span asp-validation-for="ReservationDTO.CheckInDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReservationDTO.CheckOutDate">Check out date</label>
+                <input type="date" class="form-control" asp-for="ReservationDTO.CheckOutDate">
+                <span asp-validation-for="ReservationDTO.CheckOutDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomNumber">Room's number</label>
+                <input type="text" class="form-control" placeholder="Enter room number" asp-for="RoomDTO.RoomNumber">
+                <span asp-validation-for="RoomDTO.RoomNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomType">Room's type</label>
+                <input type="text" class="form-control" placeholder="Enter room type" asp-for="RoomDTO.RoomType">
+                <span asp-validation-for="RoomDTO.RoomType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomCapacity">Room's capacity</label>
+                <input type="number" class="form-control" placeholder="Enter room capacity" asp-for="RoomDTO.RoomCapacity">
+                <span asp-validation-for="RoomDTO.RoomCapacity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomDTO.RoomDailyCost">Room's daily cost</label>
+                <input placeholder="Enter daily cost" class="form-control" type="text" asp-for="RoomDTO.RoomDailyCost">
+                <span asp-validation-for="RoomDTO.RoomDailyCost" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CustomerDTO.CustomerName">Customer's name</label>
+                <input type="text" class="form-control" placeholder="Enter name" asp-for="CustomerDTO.CustomerName">
+                <span asp-validation-for="CustomerDTO.CustomerName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CustomerDTO.CustomerEmail">Customer's email</label>
+                <input type="email" class="form-control" placeholder="Enter email" asp-for="CustomerDTO.CustomerEmail">
+                <span asp-validation-for="CustomerDTO.CustomerEmail" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CustomerDTO.CustomerPhone">Customer's phone number</label>
+                <input type="text" class="form-control" placeholder="Enter phone number" asp-for="CustomerDTO.CustomerPhone">
+                <span asp-validation-for="CustomerDTO.CustomerPhone" class="text-danger"></span>
+            </div>
+
+            @if (@Model.ReservationDTO != null &&
+                 @Model.ReservationDTO.ReservationAlreadyExists != null)
+            {
+                <h3 class="text-danger">
+                    <strong>@Model.ReservationDTO.ReservationAlreadyExists</strong>
+                </h3>
+            }
+
+            @if (@Model.ReservationDTO != null &&
+                 @Model.ReservationDTO.ErrorMessageForDate != null)
+            {
+                <h3 class="text-danger">
+                    <strong>@Model.ReservationDTO.ErrorMessageForDate</strong>
+                </h3>
+            }
+
+            @if (@Model.ReservationDTO != null &&
+                 @Model.ReservationDTO.ErrorMessageForIsRoomActive != null)
+            {
+                <h3 class="text-danger">
+                    <strong>@Model.ReservationDTO.ErrorMessageForIsRoomActive</strong>
+                </h3>
+            }
+
+            @if (@Model.ReservationDTO != null &&
+                 @Model.ReservationDTO.ErrorMessageForInvalidRoomOrUser != null)
+            {
+                <h3 class="text-danger">
+                    <strong>@Model.ReservationDTO.ErrorMessageForInvalidRoomOrUser</strong>
+                </h3>
+            }
+
+            @if (@Model.ReservationDTO != null && @Model.ReservationDTO.TotalCost > 0.0)
+            {
+                <h3 class="text-info">
+                    <strong>Total cost : @Model.ReservationDTO.TotalCost</strong>
+                </h3>
+                
+                <script>
+                    document.getElementById("submit").style.display = "none";
+                </script>
+                <a class="btn-link" style="font-size:20px;display:flex;align-items:center;justify-content:center" asp-page="/Reservation/GetReservations">See all reservations</a>
+
+            }
+            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+    </div>
+
+</body>
+
+</html>
