@@ -1,0 +1,28 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace HMS.DTOs
+{
+    public class ReservationDTO
+    {
+        //Prevent overlapping reservations for the same room.
+        //Check room availability before confirming a reservation.
+        //Calculate total cost based on the number of days and room's daily cost.
+
+        [Display(Name = "check in date")]
+        [Required(ErrorMessage = "Please, enter a valid check in date !")]
+        public DateTime? CheckInDate { get; set; }
+
+        [Display(Name = "check out date")]
+        [Required(ErrorMessage = "Please, enter a valid check out date !")]
+        public DateTime? CheckOutDate { get; set; }
+
+        public double TotalCost { get; set; }
+        public string? ErrorMessageForIsRoomActive { get; set; }
+
+        public string? ReservationAlreadyExists { get; set; }
+
+        public string? ErrorMessageForDate {  get; set; }
+
+        public string? ErrorMessageForInvalidRoomOrUser { get; set; }
+    }
+}
