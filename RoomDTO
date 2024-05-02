@@ -1,0 +1,33 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace HMS.DTOs
+{
+    public class RoomDTO
+    {
+        [Display(Name = "room number")]
+        [Required(ErrorMessage = "Please, enter a room number!")]
+        [MaxLength(4, ErrorMessage = "Sorry, the hotel hasn't got more than 1000 rooms!")]
+        public string RoomNumber { get; set; }
+
+        [Display(Name = "room type")]
+        [Required(ErrorMessage = "Please, enter room type!")]
+        public string RoomType { get; set; }
+
+        [Display(Name = "room capacity")]
+        [Required(ErrorMessage = "Please enter room capacity.")]
+        [Range(1, 10, ErrorMessage = "Room capacity must be between 1 and 10.")]
+        public int? RoomCapacity { get; set; }
+
+        //By default the room isn't active
+        public bool RoomIsActive { get; set; }
+
+        [Display(Name = "daily cost")]
+        [Required(ErrorMessage = "Please, enter daily cost of the room!")]
+        [RegularExpression("^((\\d+)+(\\.\\d+))$",
+                           ErrorMessage = "Enter valid daily cost!")]
+        public string RoomDailyCost { get; set; }
+
+        public string? RoomAlreadyExists { get; set; }
+        public string? ErrorMessageForIsRoomActive { get; set; }
+    }
+}
